@@ -1,10 +1,25 @@
 version: "3.9"
 services:
   web:
+    container_name: frontend
     build: ./frontend
     ports:
       - "8080:80"
   backend:
+    container_name: backend
     build: ./backend
     ports:
       - "3001:3001"
+  postgres:
+    container_name: postgres
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db:/docker-entrypoint-initdb.d/
+
+volumes:
+  postgres_data:
